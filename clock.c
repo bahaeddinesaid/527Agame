@@ -96,7 +96,7 @@ tempss gestion_temps_compteur(int pause_time_disc,int pause_time_pause,tempss te
      
             
         SDL_BlitSurface(temp.temp, NULL, ecran, &temp.position_temp);
-        SDL_Flip(ecran);
+        
     return temp;
   }
 return temp;           
@@ -132,6 +132,7 @@ temp.imgtemp=IMG_Load("img.jpg");
 temp.position_imgtemp.x=100;
 temp.position_imgtemp.y=0;
 temp.maxtemp=295;
+//295
     return temp;
 }
 else if(diff==2)
@@ -187,7 +188,7 @@ tempss gestion_temps_decompteur(int pause_time_disc,int pause_time_pause ,tempss
         
    
         SDL_BlitSurface(temp.temp, NULL, ecran, &temp.position_temp);
-        SDL_Flip(ecran);
+    
     return temp;
   }
 return temp;
