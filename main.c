@@ -54,7 +54,7 @@ image_menu logo,debut,affiche,loading,level1,gameover;
 boutton logofb,soundon,soundoff,fixloading;
 int i=0;
 int continuer=1;
-int choose=0;
+int pause,choose=0;
 //camera
 camera.x=670;
 camera.y=0;
@@ -65,8 +65,8 @@ camera.h=600;
 
 //Ecran
 screen=openwindow(screen);
-/*
-intro(logo,debut,affiche,loading,screen);
+
+/*intro(logo,debut,affiche,loading,screen);
 bouttons(logofb,soundon,soundoff,screen);
 
 //CHOICE : 
@@ -85,18 +85,18 @@ i=k;
 //
 
 if(input==1000)
-{
-*/
+{*/
+
 ///******************************************************************************************
 ///                                          INIT  STAGE1           ****************************************
 level1=init_menu(level1,122,"level1/",1,"jpeg");
 gameover=init_menu(gameover,29,"gameover/",1,"jpeg");
 loading=init_menu(loading,100,"loading/",1,"png");
 
-
+newgame:
 Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024);
 bgmusic=Mix_LoadMUS("sound/lvl.mp3");
-Mix_VolumeMusic(MIX_MAX_VOLUME / 3);
+Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
                 Mix_PlayMusic(bgmusic,1);
 
 
@@ -122,6 +122,7 @@ bgmusic=Mix_LoadMUS("Amazing Oriental Music - HD - FARAN ENSEMBLE.mp3");
 Mix_PlayMusic(bgmusic,-1);
 
 top:
+Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
 collision2=0;
 collision3=0;
 collision4=0;
@@ -154,8 +155,15 @@ input=0;
  while (input!=-1 && input!=10 &&  temp2.maxtemp>0)
   {
 input=INPUT_STAGE1(event);
+//pause menu
+pause=menu_pause(screen,event,input);
+if(pause==2)
+goto newgame;
+else if(pause==3) 
+goto exit;
 
 //update
+
 camera.x=scrolling(screen,stg1,input,camera,event);
 perso.pos.x=deplacementvirtuel(input,perso);
 perso=deplacementreel(input,perso);
@@ -168,25 +176,25 @@ SDL_BlitSurface(stg1,&camera,screen,NULL);
 //afficher selon prio
 if(perso.fix.y==280){
 animation_player(sprite,perso,screen);
-karhba.rect.x=entite_afficher(screen,karhba,camera,1,-13);
-karhba2.rect.x=entite_afficher(screen,karhba2,camera,1,-13);
-entit_sec.rect.x=entite_afficher(screen,entit_sec,camera,1,-15);
-karhba3.rect.x=entite_afficher(screen,karhba3,camera,1,-15);
+karhba.rect.x=entite_afficher(screen,karhba,camera,1,-15);
+karhba2.rect.x=entite_afficher(screen,karhba2,camera,1,-15);
+entit_sec.rect.x=entite_afficher(screen,entit_sec,camera,1,-20);
+karhba3.rect.x=entite_afficher(screen,karhba3,camera,1,-20);
 }
 else //if(perso.fix.y==340)
 {
-karhba.rect.x=entite_afficher(screen,karhba,camera,1,-20);
-karhba2.rect.x=entite_afficher(screen,karhba2,camera,1,-20);
+karhba.rect.x=entite_afficher(screen,karhba,camera,1,-15);
+karhba2.rect.x=entite_afficher(screen,karhba2,camera,1,-15);
 animation_player(sprite,perso,screen);
-entit_sec.rect.x=entite_afficher(screen,entit_sec,camera,1,-25);
-karhba3.rect.x=entite_afficher(screen,karhba3,camera,1,-25);
+entit_sec.rect.x=entite_afficher(screen,entit_sec,camera,1,-20);
+karhba3.rect.x=entite_afficher(screen,karhba3,camera,1,-20);
 }
 
 
 
 
 
-capsulee.position.x=capsule1(screen,capsulee,camera,input,collision,capsulee.seule);
+capsulee=capsule1(screen,capsulee,camera,input,collision,capsulee.seule);
 temp2=gestion_temps_decompteur(pause_time_disc,pause_time_pause,temp2,screen);
 
 ///COLLISION
@@ -227,7 +235,7 @@ goto top;
 if(input==10)
  {
 SDL_EnableKeyRepeat(0,0);
-temp2=click(screen,stg1,camera,temp2,scor,done,capsulee.seule,perso);
+temp2=click(screen,stg1,camera,temp2,scor,done,capsulee.seule,perso,bgmusic);
 }
 
 
@@ -248,10 +256,16 @@ afficher_looading(gameover,screen);
 }
 //***********************************************************************************************************************************
 
-Mix_FreeMusic(bgmusic);
+
 
 scorefinale=calcul_score(3,scor,temp2);
 afficher_score(scor,screen);
+//free
+exit:
+
+Mix_FreeMusic(bgmusic);
+SDL_FreeSurface(stg1);
+SDL_FreeSurface(screen);
 
 //}//if
 

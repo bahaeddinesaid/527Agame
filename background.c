@@ -93,6 +93,11 @@ case SDL_KEYDOWN:
 	input=3;
 	return input;
 	break;
+
+	   case SDLK_ESCAPE:
+	input=50;
+	return input;
+	break;
 	  }
 
 	}
@@ -203,7 +208,7 @@ SDL_FreeSurface(dis[i]);
 
 /////////////
 
-tempss click(SDL_Surface *screen,SDL_Surface *stg1,SDL_Rect camera,tempss temp2,score scor,int done[],int x,player perso)
+tempss click(SDL_Surface *screen,SDL_Surface *stg1,SDL_Rect camera,tempss temp2,score scor,int done[],int x,player perso,Mix_Music *bgmusic)
 {
 if(perso.fix.y==280)
 {SDL_Surface *txt[10];
@@ -233,13 +238,17 @@ discussion(screen,"kahwa","enigme1/D","png","png",4,postxt);
 temp2=enigme1(temp2,done);
 if(done[0]==1)
 {
-scor=gestion_score(done[0],done[1],done[2],done[3],scor,screen,x);
+
 discussion(screen,"kahwa","enigme1/S","png","png",2,postxt);
 loading=init_menu(loading,75,"loading/",1,"png");
 afficher_looading(loading,screen);
+scor=gestion_score(done[0],done[1],done[2],done[3],scor,screen,x);
 bonus=init_menu(bonus,30,"+5000/",1,"png");
 afficher_bonus(bonus,screen,stg1,camera,perso,"sound/bonus.wav");
 }
+else 
+{loading=init_menu(loading,75,"loading/",1,"png");
+afficher_looading(loading,screen);}
 }
 
 if(camera.x>=1445 && camera.x<=1500)//ysarbi
@@ -276,18 +285,20 @@ if(done[1]==1)
 {
 scor=gestion_score(done[0],done[1],done[2],done[3],scor,screen,x);
 discussion(screen,"img/BG","enigme2/S","png","png",1,postxt);
+loading=init_menu(loading,75,"loading/",1,"png");
+afficher_looading(loading,screen);
 bonus=init_menu(bonus,30,"+5000/",1,"png");
 afficher_bonus(bonus,screen,stg1,camera,perso,"sound/bonus.wav");
 }
-
-loading=init_menu(loading,75,"loading/",1,"png");
-afficher_looading(loading,screen);
+else 
+{loading=init_menu(loading,75,"loading/",1,"png");
+afficher_looading(loading,screen);}
 
 }
 if(camera.x>=4340 && camera.x<=4395 && done[2]==0)
 {
 loading=init_menu(loading,75,"loading/",1,"png");
-afficher_menu(loading,screen);
+afficher_looading(loading,screen);
 discussion(screen,"enigme3/Hfond","enigme3/D","png","png",7,postxt);
 temp2=enigme3(temp2,done);
 printf("done2=%d\n",done[2]);
@@ -295,12 +306,16 @@ if(done[2]==1)
 {
 scor=gestion_score(done[0],done[1],done[2],done[3],scor,screen,x);
 discussion(screen,"enigme3/Gfond","enigme3/S","png","png",3,postxt);
+loading=init_menu(loading,75,"loading/",1,"png");
+afficher_looading(loading,screen);
 bonus=init_menu(bonus,30,"+5000/",1,"png");
 afficher_bonus(bonus,screen,stg1,camera,perso,"sound/bonus.wav");
 }
+else{
 loading=init_menu(loading,75,"loading/",1,"png");
-afficher_looading(loading,screen);
+afficher_looading(loading,screen);}
 }
+
 
 if(o<=4 && o>=1)
 {
@@ -311,7 +326,11 @@ SDL_Flip(screen);
 
 SDL_Delay(3000);
 Mix_CloseAudio();
-}}
+}
+else
+Mix_PlayMusic(bgmusic,-1);
+
+}
 return temp2;
 }
 

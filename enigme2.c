@@ -51,6 +51,10 @@ tempss enigme2(tempss temp2,int done[])
     nomproduit1 = TTF_RenderText_Shaded(police2, nomp1, couleurBlanche, couleurNoire);
     nomproduit2 = TTF_RenderText_Shaded(police2, nomp2, couleurBlanche, couleurNoire);
     nomproduit3 = TTF_RenderText_Shaded(police2, nomp3, couleurBlanche, couleurNoire);
+	Mix_Music *Music_eingme1;
+    Music_eingme1 = Mix_LoadMUS("sound/ghoneya.mp3");//chargement de la musique
+    Mix_VolumeMusic(MIX_MAX_VOLUME / 1);
+    Mix_PlayMusic(Music_eingme1,-1);//boucle infini
 
     feuille=IMG_Load("img/feuille.png");
     bg=IMG_Load("img/BG.png");
@@ -1256,6 +1260,7 @@ temp2=gestion_temps_decompteur(0,0,temp2,ecran);
     {
      done[1]=1;
      //return done ;
+Mix_FreeMusic(Music_eingme1);
 return temp2;
     }    
 
@@ -1272,6 +1277,7 @@ return temp2;
 
   // return win;  
 done[1]=0;
+Mix_FreeMusic(Music_eingme1);
 return temp2;
  
 }

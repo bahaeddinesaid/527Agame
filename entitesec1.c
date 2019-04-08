@@ -12,15 +12,21 @@ o.position.w=78;
 o.position.h=78;
 o.position.x=900;
 o.position.y=500;
-
+o.affiche.x=rand()%5000+1000;
 o.affiche.x=1800;
 o.affiche.y=420;
+
+o.compteur=1;
+o.ta=0;
+o.tp=0;
 
 
 return o;
 }
 
-int capsule1 (SDL_Surface *ecran,objet o,SDL_Rect camera,int input,int collision,int x)
+
+
+objet capsule1 (SDL_Surface *ecran,objet o,SDL_Rect camera,int input,int collision,int x)
 {//open
 
 
@@ -36,17 +42,29 @@ else if(input==1)
 
 o.position.x+=5;
 }//4				
-strcpy(o.objet,"capsulee/1.png");	
-o.Objet[1]=IMG_Load(o.objet);
+//strcpy(o.objet,"capsulee/1.png");	
+//o.Objet[o.compteur]=IMG_Load(o.objet);
 //printf("object.x=%d\n",o.position.x);
 //SDL_BlitSurface(back,NULL,ecran,&positionback);
-if(collision==0 && x==0)
-{SDL_BlitSurface(o.Objet[1],NULL,ecran,&o.position);}
+o.ta = SDL_GetTicks();
+if((collision==0 && x==0) && (o.ta - o.tp >=50 ))
+{
 
+sprintf(o.objet,"capsulee/%d.png",o.compteur);	
+o.Objet[o.compteur]=IMG_Load(o.objet);
+
+//SDL_Flip(ecran);
+SDL_BlitSurface(o.Objet[o.compteur],NULL,ecran,&o.position);
+o.compteur++;
+printf("image=%d\n",o.compteur);
+o.tp=o.ta;}
+if(o.seule!=1)
+SDL_BlitSurface(o.Objet[o.compteur],NULL,ecran,&o.position);
+if(o.compteur==8){o.compteur=1;}
 
 //SDL_Flip(ecran);
 
 }//2
 
-return o.position.x;
+return o;
 }//close
