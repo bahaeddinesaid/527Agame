@@ -1,0 +1,16 @@
+#ifndef BACKGROUND_INCLUDED
+#define BACKGROUND_INCLUDED
+#include"clock.h"
+#include"score.h"
+#include"player.h"
+#include"SDL/SDL_mixer.h"
+
+//SDL_Surface* openwindow(SDL_Surface *screen);
+SDL_Surface* init_background(SDL_Surface *screen,char bg[50]);
+int INPUT_STAGE1(SDL_Event event);
+int scrolling(SDL_Surface *screen,SDL_Surface *stg1,int input,SDL_Rect camera,SDL_Event event,player p,double vitesse);
+tempss click(SDL_Surface *screen,SDL_Surface *stg1,SDL_Rect camera,tempss temp2,score scor,int *done,int x,player perso,Mix_Music *bgmusic);
+void discussion(SDL_Surface *screen,char background[50],char schema[100],char extension[10],char bgformat[10],int nb,SDL_Rect postxt);
+
+#endif
+
